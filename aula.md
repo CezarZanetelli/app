@@ -31,3 +31,7 @@ Constantes
 Strings (textos): "" '' ``
 Number: 2 1.4
 Function
+
+## Operadores
+
+Operadores de atribuição de valor
