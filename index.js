@@ -176,9 +176,51 @@ const metasRealizadas = async () => {
 }
 
 await select({
-    message: "Metas Realizadas",
+    message: "Metas Realizadas: " + realizadas.length,
     choices: [...realizadas]
-})
+  })
+}
+
+const metasAbertas = async () => {
+    const abertas = metas.filter((meta) => {
+        return meta.cheked != true 
+//        return meta.checked != true OU return !meta.cheked (inverte o valor do boolean)
+    })
+
+    if(abertas.length == 0) {
+        console.log("Não existe metas abertas! :)")
+        return
+    }
+
+    await select({
+        message: "Metas Abertas: " + abertas.length,
+        choices: [...abertas]
+    })
+}
+
+const deletarMetas = async () => {
+    const metasDesmarcadas = metas.map((meta) => {
+        return { value: meta.value, checkbox: false }
+    })
+    const itemsADeletar = await checkbox({
+    message: "Selecione o item para deletar",
+    choices: [...metasDesmarcadas],
+    instructions: false,   
+    })
+
+    if(itemsADeletar.length == 0) {
+        console.log("Nenhum item para deletar!")
+        return
+    }
+
+    itemsADeletar.forEach((item) => {
+        metas.filter((meta) => {
+            return meta.value != item
+        })
+    })
+
+    console.log("Meta(s) deletada(s) com sucesso!")
+
 }
 
 /*
@@ -210,6 +252,14 @@ const opcao = await select({
             value: "realizadas"  
         },
         {
+            name: "Metas abertas",
+            value: "abertas"  
+        },
+        {
+            name: "Deletar metas",
+            value: "deletar"  
+        },
+        {
             name: "Sair",
             value: "sair"
         }
@@ -221,15 +271,21 @@ const opcao = await select({
          await cadastrarMeta()
          console.log(metas)
             break
-            case "listar":
-                await listarMetas()
-                break
-                case "realizadas":
-                    await metasRealizadas()
-                        break
-                case "sair":
-                    console.log("Até a próxima!")
-                    return
+        case "listar":
+            await listarMetas()
+            break
+        case "realizadas":
+            await metasRealizadas()
+            break
+        case "abertas":
+            await metasAbertas()
+            break
+        case "deletar":
+            await deletarMetas()
+            break       
+        case "sair":
+            console.log("Até a próxima!")
+            return
      }
     }
 }
