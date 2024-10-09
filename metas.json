@@ -1,0 +1,14 @@
+[
+  {
+    "value": "andar",
+    "checked": false
+  },
+  {
+    "value": "correr",
+    "checked": false
+  },
+  {
+    "value": "ler",
+    "checked": false
+  }
+]
